@@ -1,0 +1,5 @@
+List of usable values for message settings:
+{PLAYER_ADDRESS}
+{PLAYER_DISPLAY_NAME}
+{PLAYER_NAME}
+{PLAYER_PORT}
