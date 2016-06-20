@@ -28,11 +28,11 @@ class PlanBCommand extends Command{
             "delbackup" => "Removes a player from backups.txt",
             "help" => "Shows all PlanB commands",
             "list" => "Lists all backup players",
-            "restore" => "Restores OP status of all online players listed in backup.txt"
+            "restore" => "Restores OP status of all online players listed in backups.txt"
         ];
         $sender->sendMessage("PlanB commands:");
         foreach($commands as $name => $description){
-            $sender->sendMessage("/planb ".$name.": ".$description);
+            $sender->sendMessage("/planb $name: $description");
         }
     }
     /**
@@ -52,11 +52,11 @@ class PlanBCommand extends Command{
                     if(isset($args[1])){
                         if($sender instanceof ConsoleCommandSender){
                             if($this->plugin->isBackupPlayer($args[1])){
-                                $sender->sendMessage(TextFormat::RED.$args[1]." already exists in backups.txt.");
+                                $sender->sendMessage(TextFormat::RED."$args[1] already exists in backups.txt.");
                             }
                             else{
                                 $this->plugin->addBackup($args[1]);
-                                $sender->sendMessage(TextFormat::GREEN."Added ".$args[1]." to backups.txt.");
+                                $sender->sendMessage(TextFormat::GREEN."Added $args[1] to backups.txt.");
                             }
                         }
                         else{
@@ -66,17 +66,17 @@ class PlanBCommand extends Command{
                     else{
                         $sender->sendMessage(TextFormat::RED."Please specify a valid player."); 
                     }
-                    return true;
+                    break;
                 case "d":
                 case "delbackup":
                     if(isset($args[1])){
                         if($sender instanceof ConsoleCommandSender){
                             if($this->plugin->isBackupPlayer($args[1])){
                                 $this->plugin->removeBackup($args[1]);
-                                $sender->sendMessage(TextFormat::GREEN."Removed ".$args[1]." from backups.txt.");
+                                $sender->sendMessage(TextFormat::GREEN."Removed $args[1] from backups.txt.");
                             }
                             else{
-                                $sender->sendMessage(TextFormat::RED.$args[1]." does not exist in backups.txt.");
+                                $sender->sendMessage(TextFormat::RED."$args[1] does not exist in backups.txt.");
                             }
                         }
                         else{
@@ -86,14 +86,14 @@ class PlanBCommand extends Command{
                     else{
                         $sender->sendMessage(TextFormat::RED."Please specify a valid player.");
                     }
-                    return true;
+                    break;
                 case "help":
                     $this->sendCommandHelp($sender);
-                    return true;
+                    break;
                 case "l":
                 case "list":
                     $this->plugin->sendBackups($sender);
-                    return true;
+                    break;
                 case "r":
                 case "restore":
                     if($this->plugin->isBackupPlayer($sender->getName()) or $sender instanceof ConsoleCommandSender){
@@ -103,7 +103,7 @@ class PlanBCommand extends Command{
                     else{
                         $sender->sendMessage($this->plugin->getConfig()->get("noPermissionMessage"));
                     }
-                    return true;
+                    break;
                 default:
                     $sender->sendMessage("Usage: /planb <sub-command> [parameters]");
                     return false;
@@ -113,5 +113,6 @@ class PlanBCommand extends Command{
             $this->sendCommandHelp($sender);
             return false;
         }
+        return true;
     }
 }
