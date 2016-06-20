@@ -106,7 +106,7 @@ class PlanBCommand extends Command{
                     break;
                 default:
                     $sender->sendMessage("Usage: /planb <sub-command> [parameters]");
-                    return false;
+                    break;
             }
         }
         else{
